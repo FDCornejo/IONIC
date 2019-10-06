@@ -1,19 +1,25 @@
 import React from 'react';
+import ReactDOM from 'react-dom'
 import { IonBackButton, IonButtons, IonHeader, IonPage, IonToolbar, IonTitle, IonContent } from '@ionic/react';
+import { RouteComponentProps } from 'react-router';
+interface UserDetailPageProps extends RouteComponentProps<{
+  datos: string;
+}> { }
 
-const Details: React.FC = () => {
+const Details: React.FC<UserDetailPageProps> = ({ match }) => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/tab2" />
+            <IonBackButton defaultHref="/tab1" />
           </IonButtons>
-          <IonTitle>Detail</IonTitle>
+          <IonTitle> About This Anime</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <p>Details</p>
+        <h1>Synopsis</h1>
+        <p>{match.params.datos}</p>
       </IonContent>
     </IonPage>
   );

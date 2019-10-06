@@ -2,70 +2,119 @@ import {
   IonCard,
   IonCardContent,
   IonCardHeader,
-  IonCardSubtitle,
   IonCardTitle,
   IonContent,
+  IonGrid,
   IonHeader,
-  IonIcon,
+  IonRow,
+  IonButton,
+  IonButtons,
+  IonRouterLink,
+  IonCol,
   IonItem,
-  IonLabel,
-  IonList,
-  IonListHeader,
   IonPage,
-  IonTitle,
-  IonToolbar
+  IonToolbar,
+  IonBadge,
+  IonLabel,
+  IonSearchbar
 } from '@ionic/react';
-import { book, build, colorFill, grid } from 'ionicons/icons';
-import React from 'react';
+import axios from 'axios';
+
+import React, { Component } from 'react';
 import './Tab1.css';
+import { Modelito } from '../Models/animeModel'
+const getBaseUrl = "https://api.jikan.moe/v3/search/anime?q=";
 
-const Tab1: React.FC = () => {
-  return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Tab One</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        <IonCard className="welcome-card">
-          <img src="/assets/shapes.svg" alt="" />
-          <IonCardHeader>
-            <IonCardSubtitle>Get Started</IonCardSubtitle>
-            <IonCardTitle>Welcome to Ionic</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <p>
-              Now that your app has been created, you'll want to start building out features and
-              components. Check out some of the resources below for next steps.
-            </p>
-          </IonCardContent>
-        </IonCard>
 
-        <IonList lines="none">
-          <IonListHeader>
-            <IonLabel>Resources</IonLabel>
-          </IonListHeader>
-          <IonItem href="https://ionicframework.com/docs/" target="_blank">
-            <IonIcon slot="start" color="medium" icon={book} />
-            <IonLabel>Ionic Documentation</IonLabel>
-          </IonItem>
-          <IonItem href="https://ionicframework.com/docs/building/scaffolding" target="_blank">
-            <IonIcon slot="start" color="medium" icon={build} />
-            <IonLabel>Scaffold Out Your App</IonLabel>
-          </IonItem>
-          <IonItem href="https://ionicframework.com/docs/layout/structure" target="_blank">
-            <IonIcon slot="start" color="medium" icon={grid} />
-            <IonLabel>Change Your App Layout</IonLabel>
-          </IonItem>
-          <IonItem href="https://ionicframework.com/docs/theming/basics" target="_blank">
-            <IonIcon slot="start" color="medium" icon={colorFill} />
-            <IonLabel>Theme Your App</IonLabel>
-          </IonItem>
-        </IonList>
-      </IonContent>
-    </IonPage>
-  );
+
+export default class Tab1 extends Component {
+  state = {
+    elements: [],
+    texto: 'Naruto',
+    fresh: false
+  };
+
+  handleChangeSearch = (e: any) => {
+    this.setState({ texto: e.target.value });
+  }
+  componentDidMount() {
+    var s = this.state.texto
+    var url = getBaseUrl + s.split(' ') + '&limit=16'
+    axios
+      .get(url)
+      .then((response: any) => {
+        console.log(response.data.results)
+        this.setState({ elements: response.data.results })
+      })
+  }
+  Buscar = () => {
+    var s = this.state.texto
+    var url = getBaseUrl + s.split(' ') + '&limit=16'
+    axios
+      .get(url)
+      .then((response: any) => {
+        console.log(response.data.results)
+        this.setState({ elements: response.data.results })
+      })
+  }
+
+  render() {
+    let cosas = this.state.elements.map((value: Modelito, index) => {
+
+      return (
+        <IonCol key={index} size="12">
+
+
+          <IonCard>
+            <img src={value.image_url} />
+            <IonCardHeader>
+              <IonCardTitle>{value.title}</IonCardTitle>
+              <IonBadge color="primary">Score {value.score}</IonBadge>
+            </IonCardHeader>
+            <IonItem routerLink={"/tab1/details/" + value.synopsis}>
+              <IonLabel>
+
+                <h2>See synopsis</h2>
+              </IonLabel>
+            </IonItem>
+
+          </IonCard>
+
+
+        </IonCol>
+      )
+    });
+
+
+    return (
+      <IonPage>
+        <IonHeader>
+          <IonToolbar>
+            <IonItem>
+              <IonSearchbar value={this.state.texto} onIonInput={this.handleChangeSearch} ></IonSearchbar>
+
+            </IonItem>
+            <IonButtons slot="primary">
+              <IonButton shape="round" onClick={this.Buscar} color="primary">
+                Buscar
+          </IonButton>
+            </IonButtons>
+
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <IonGrid>
+            <IonRow>
+              {cosas}
+            </IonRow>
+          </IonGrid>
+
+        </IonContent>
+      </IonPage>
+    );
+
+  }
+
+
 };
 
-export default Tab1;
