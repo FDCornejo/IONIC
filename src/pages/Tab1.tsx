@@ -1,6 +1,5 @@
 import {
   IonCard,
-  IonCardContent,
   IonCardHeader,
   IonCardTitle,
   IonContent,
@@ -9,7 +8,6 @@ import {
   IonRow,
   IonButton,
   IonButtons,
-  IonRouterLink,
   IonCol,
   IonItem,
   IonPage,
@@ -43,7 +41,7 @@ export default class Tab1 extends Component {
     axios
       .get(url)
       .then((response: any) => {
-        console.log(response.data.results)
+ 
         this.setState({ elements: response.data.results })
       })
   }
@@ -53,7 +51,7 @@ export default class Tab1 extends Component {
     axios
       .get(url)
       .then((response: any) => {
-        console.log(response.data.results)
+ 
         this.setState({ elements: response.data.results })
       })
   }
@@ -66,15 +64,14 @@ export default class Tab1 extends Component {
 
 
           <IonCard>
-            <img src={value.image_url} />
+            <img alt="this is you" src={value.image_url} />
             <IonCardHeader>
               <IonCardTitle>{value.title}</IonCardTitle>
               <IonBadge color="primary">Score {value.score}</IonBadge>
             </IonCardHeader>
-            <IonItem routerLink={"/tab1/details/" + value.synopsis}>
+            <IonItem color="dark" routerLink={"/tab1/details/" + value.synopsis}>
               <IonLabel>
-
-                <h2>See synopsis</h2>
+                <h2>Read more</h2>
               </IonLabel>
             </IonItem>
 
@@ -88,14 +85,14 @@ export default class Tab1 extends Component {
 
     return (
       <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonItem>
-              <IonSearchbar value={this.state.texto} onIonInput={this.handleChangeSearch} ></IonSearchbar>
+        <IonHeader >
+          <IonToolbar color="dark">
+            <IonItem color="dark">
+              <IonSearchbar color="tertiary" value={this.state.texto} onIonInput={this.handleChangeSearch} ></IonSearchbar>
 
             </IonItem>
             <IonButtons slot="primary">
-              <IonButton shape="round" onClick={this.Buscar} color="primary">
+              <IonButton shape="round" onClick={this.Buscar} color="light">
                 Buscar
           </IonButton>
             </IonButtons>

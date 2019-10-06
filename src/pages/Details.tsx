@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
 import { IonBackButton, IonButtons, IonHeader, IonPage, IonToolbar, IonTitle, IonContent } from '@ionic/react';
 import { RouteComponentProps } from 'react-router';
 interface UserDetailPageProps extends RouteComponentProps<{

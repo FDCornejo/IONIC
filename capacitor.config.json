@@ -1,0 +1,7 @@
+{
+  "appId": "com.example.app",
+  "appName": "DanielApp",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build"
+}
